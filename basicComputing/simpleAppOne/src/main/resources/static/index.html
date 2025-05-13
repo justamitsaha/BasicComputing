@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cookie Visibility Demo</title>
+</head>
+<body>
+<h2>Cookie Demo</h2>
+<button onclick="setCookies()">Set Cookies</button>
+
+<h3>JS-Visible Cookies:</h3>
+<pre id="cookieOutput">(No cookies yet)</pre>
+
+<script>
+    function setCookies() {
+      fetch('/api/set-cookie', {
+        method: 'GET',
+        credentials: 'include'
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log("Response:", data);
+        showCookies();
+      })
+      .catch(err => console.error("Error:", err));
+    }
+
+    function showCookies() {
+      const cookies = document.cookie;
+      document.getElementById("cookieOutput").textContent = cookies || "(No JS-visible cookies)";
+    }
+
+    // Show existing cookies on load
+    window.onload = showCookies;
+  </script>
+</body>
+</html>
